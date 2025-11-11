@@ -22,21 +22,11 @@ class DataModule {
     fun provideOkHttp(): OkHttpClient = OkHttpClient.Builder().build()
 
     @Provides
-    fun provideMoshi(): Moshi = Moshi.Builder().build()
-
-    @Provides
-    fun provideRetrofit(client: OkHttpClient, moshi: Moshi): Retrofit =
+    fun provideFactsApi(okHttpClient: OkHttpClient): FactsRestApi =
         Retrofit.Builder()
             .baseUrl("https://uselessfacts.jsph.pl/api/v2/")
-            .client(client)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(okHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
             .build()
-
-    @Provides
-    fun provideFactsApi(retrofit: Retrofit): FactsRestApi =
-        retrofit.create(FactsRestApi::class.java)
-
-    @Provides
-    fun provideFactRepository(api: FactsRestApi): FactRepository =
-        FactRepository(api)
+            .create(FactsRestApi::class.java)
 }
