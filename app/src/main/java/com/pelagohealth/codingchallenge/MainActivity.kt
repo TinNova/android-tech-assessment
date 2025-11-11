@@ -9,7 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.pelagohealth.codingchallenge.presentation.MainViewModel
-import com.pelagohealth.codingchallenge.presentation.HistoryScreenViewModel
+import com.pelagohealth.codingchallenge.presentation.HistoryViewModel
 import com.pelagohealth.codingchallenge.presentation.navigation.AppNavHost
 import com.pelagohealth.codingchallenge.ui.theme.PelagoCodingChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
-    private val historyScreenViewModel: HistoryScreenViewModel by viewModels()
+    private val historyScreenViewModel: HistoryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -6,6 +6,8 @@ import com.pelagohealth.codingchallenge.data.repository.FactRepository
 import com.pelagohealth.codingchallenge.domain.model.Fact
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,24 +38,20 @@ class MainViewModel @Inject constructor(
     }
 
     fun fetchNewFact() {
-        viewModelScope.launch {
-            _state.value = _state.value.copy(loading = true, error = null)
+        CoroutineScope(Dispatchers.Main).launch {
+            _state.value = MainScreenState(loading = true)
             runCatching { repository.get() }
                 .onSuccess { fact ->
-                    val prev = _state.value.current
-                    val recent = (listOfNotNull(prev) + _state.value.recent).take(3)
-                    _state.value = MainScreenState(current = fact, recent = recent)
+                    _state.value = MainScreenState(current = fact)
                 }
                 .onFailure { e ->
-                    _state.value = _state.value.copy(loading = false, error = e.message ?: "Error")
+                    println(e)
                 }
         }
     }
 
     data class MainScreenState(
         val current: Fact? = null,
-        val recent: List<Fact> = emptyList(),
         val loading: Boolean = false,
-        val error: String? = null
     )
 }
