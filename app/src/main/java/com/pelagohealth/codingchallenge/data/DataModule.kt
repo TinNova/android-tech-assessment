@@ -1,8 +1,8 @@
 package com.pelagohealth.codingchallenge.data
 
 import com.pelagohealth.codingchallenge.data.datasource.rest.FactsRestApi
-import com.pelagohealth.codingchallenge.data.repository.FactRepository
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +26,13 @@ class DataModule {
         Retrofit.Builder()
             .baseUrl("https://uselessfacts.jsph.pl/api/v2/")
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().build()))
+            .addConverterFactory(
+                MoshiConverterFactory.create(
+                    Moshi.Builder()
+                        .add(KotlinJsonAdapterFactory())
+                        .build()
+                )
+            )
             .build()
             .create(FactsRestApi::class.java)
 }

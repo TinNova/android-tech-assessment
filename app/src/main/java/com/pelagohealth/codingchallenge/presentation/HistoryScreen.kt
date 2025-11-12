@@ -1,5 +1,6 @@
 package com.pelagohealth.codingchallenge.presentation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,10 @@ fun HistoryScreen(
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsState()
+
+    BackHandler {
+        viewModel.navigateHome()
+    }
 
     LaunchedEffect(navController) {
         viewModel.attachNavController(navController)

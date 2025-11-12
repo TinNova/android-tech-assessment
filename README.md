@@ -9,17 +9,23 @@ This is a skeleton project for our Android coding challenge, based around the fo
 - Hilt
 - Retrofit
 
-Feel free to change the project structure as you see fit, or add any dependencies you think are necessary to complete
+The skeleton contains a set of mistakes with different severity which are placed across the whole codebase.
+Feel free to change the project structure and code as you see fit, or add any dependencies you think are necessary to complete
 the challenge.
 
 ## Challenge
 
-Given the acceptance criteria below, you should identify the missing parts of the code and implement them.
+Please, try to keep the implementation time within 2 hours. 
+This is not a hard requirement, but we would be happy if you do not spend your whole weekend on it :)
+
+Given the acceptance criteria below, you should identify the missing parts of the code and implement them. 
+You also should find as much mistakes and errors as you can and fix them or if fix would be time consuming from your perspective, 
+create new .md file and describe your observations and how would you fix the spotted problems.
 
 While the feature itself is pretty simple, we encourage you to be creative and demonstrate your expertise when it comes
-to architecture, user experience, and overall best practices.
-We understand working on such a task can be pretty time consuming so your solution doesn't have to be perfect, but it
-should be good enough to give us an idea of your skills and how you approach a task.
+to architecture, user experience, overall best practices and attention to details.
+We understand working on such a task can be time consuming so we do not expect you to provide an app with perfect UI 
+or advanced gradle configuration. Tests are entirely optional.
 
 ## Acceptance criteria
 
@@ -38,17 +44,18 @@ should be good enough to give us an idea of your skills and how you approach a t
 ### Scenario 3
 
 **Given** I am on the home screen \
-**When** I press on the "More facts!" button \
-**Then** The previously displayed fact gets added to a list* \
-**And** The list should be limited to the last 3 facts (with newer facts replacing older ones)
+**When** I press on the "Show history" button \
+**Then** I am navigated to the history screen* \
+**And** The list of the last 10 loaded facts is displayed (with newer facts replacing older ones)
 
-*The list should be displayed below the "More facts!" button
+*The latest fact should be on top of the list
 
 ### Scenario 4
 
-**Given** I am on the home screen \
-**When** I swipe (left or right) on a list item \
-**Then** That fact is removed from the list
+**Given** I am on the history screen \
+**When** I press on the "Back" button (use back gesture) \
+**Then** I am navigated to the home screen* \
+**And** The previous loaded fact is displayed
 
 ## Resources
 
