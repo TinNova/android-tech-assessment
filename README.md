@@ -15,12 +15,11 @@ the challenge.
 
 ## Challenge
 
-Please, try to keep the implementation time within 2 hours. 
+Please, aim for 90–120 minutes; if you reach ~2 hours, stop and note remaining fixes. 
 This is not a hard requirement, but we would be happy if you do not spend your whole weekend on it :)
 
 Given the acceptance criteria below, you should identify the missing parts of the code and implement them. 
-You also should find as much mistakes and errors as you can and fix them or if fix would be time consuming from your perspective, 
-create new .md file and describe your observations and how would you fix the spotted problems.
+You also should find as much mistakes and errors as you can and fix them. If a fix would be too time‑consuming from your perspective, add a brief inline comment near the relevant code explaining the issue and how you would address it (use // NOTE: or // FIX:).
 
 While the feature itself is pretty simple, we encourage you to be creative and demonstrate your expertise when it comes
 to architecture, user experience, overall best practices and attention to details.
@@ -48,7 +47,8 @@ or advanced gradle configuration. Tests are entirely optional.
 **Then** I am navigated to the history screen* \
 **And** The list of the last 10 loaded facts is displayed (with newer facts replacing older ones)
 
-*The latest fact should be on top of the list
+*The latest fact should be on top of the list  
+*History shows only previously loaded facts; the currently displayed home fact is excluded.
 
 ### Scenario 4
 
