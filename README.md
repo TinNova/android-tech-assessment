@@ -15,7 +15,7 @@ the challenge.
 
 ## Challenge
 
-Please, aim for 90–120 minutes; if you reach ~2 hours, stop and note remaining fixes. 
+Please, aim for 90–120 minutes; if you reach ~2 hours, please stop and note remaining fixes. 
 This is not a hard requirement, but we would be happy if you do not spend your whole weekend on it :)
 
 Given the acceptance criteria below, you should identify the missing parts of the code and implement them. 
