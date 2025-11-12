@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class HistoryViewModel @Inject constructor() : ViewModel() {
+class HistoryViewModel @Inject constructor(
+    private var repository: FactRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(HistoryScreenState())
     val state: StateFlow<HistoryScreenState> = _state
