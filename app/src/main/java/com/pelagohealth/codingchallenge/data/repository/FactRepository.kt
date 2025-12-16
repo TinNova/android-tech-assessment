@@ -1,5 +1,6 @@
 package com.pelagohealth.codingchallenge.data.repository
 
+import com.pelagohealth.codingchallenge.data.datasource.rest.APIFact
 import com.pelagohealth.codingchallenge.data.datasource.rest.FactsRestApi
 import com.pelagohealth.codingchallenge.domain.model.Fact
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +15,8 @@ class FactRepository @Inject constructor(
 ) {
     
     suspend fun get(): Fact = withContext(Dispatchers.Default) {
-        val dto = api.getFact()
+        val dto: APIFact = api.getFact()
+        //TODO: No error handling
         Fact(text = dto.text, url = dto.sourceUrl)
     }
 

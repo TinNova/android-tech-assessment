@@ -23,28 +23,36 @@ class MainViewModel @Inject constructor(
     val state: StateFlow<MainScreenState> = _state
     private lateinit var navController: NavController
 
+    //TODO: Mechanism to save and load facts doesn't exist
+    //TODO: Navigation could be injected into the ViewModel
+    //Benefit: This adheres to unilateral flow
     fun attachNavController(controller: NavController) {
         this.navController = controller
     }
 
     init {
-        GlobalScope.launch {
+        GlobalScope.launch { //TODO: Use ViewModelScope
             fetchNewFact()
         }
     }
 
     fun navigateToSecondScreen() {
+        //TODO: Make this type-Safe instead of taking a string
         navController.navigate("history")
     }
 
     fun fetchNewFact() {
+        //TODO: Dispatchers.Main can be removed when using ViewModelScope
+        //TODO: Remove CoroutineScope and make fetchNewFact a suspend function
         CoroutineScope(Dispatchers.Main).launch {
             _state.value = MainScreenState(loading = true)
             runCatching { repository.get() }
                 .onSuccess { fact ->
-                    _state.value = MainScreenState(current = fact)
+                    //TODO: loading not reset to false
+                    _state.value = MainScreenState(current = fact, loading = false)
                 }
                 .onFailure { e ->
+                    //TODO: loading not reset to false
                     println(e)
                 }
         }
