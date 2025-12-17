@@ -1,6 +1,9 @@
 package com.pelagohealth.codingchallenge.presentation.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,29 +12,36 @@ import com.pelagohealth.codingchallenge.presentation.HistoryScreen
 import com.pelagohealth.codingchallenge.presentation.HistoryViewModel
 import com.pelagohealth.codingchallenge.presentation.MainScreen
 import com.pelagohealth.codingchallenge.presentation.MainViewModel
+import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorImpl.Routes.HISTORY
+import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorImpl.Routes.HOME
 
 @Composable
 fun AppNavHost(
     mainViewModel: MainViewModel,
     historyScreenViewModel: HistoryViewModel,
+    navigatorHolder: NavigatorHolder,
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
+    
+    // Initialize the Navigator with the NavController
+    LaunchedEffect(navController) {
+        navigatorHolder.setNavigator(navController)
+    }
+    
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = HOME.name
     ) {
-        composable(route = "home") {
+        composable(route = HOME.name) {
             MainScreen(
                 viewModel = mainViewModel,
-                navController = navController,
                 modifier = modifier,
             )
         }
-        composable(route = "history") {
+        composable(route = HISTORY.name) {
             HistoryScreen(
                 viewModel = historyScreenViewModel,
-                navController = navController,
                 modifier = modifier
             )
         }

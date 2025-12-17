@@ -7,38 +7,29 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import androidx.navigation.NavController
 import com.pelagohealth.codingchallenge.domain.model.GetFactUseCase
+import com.pelagohealth.codingchallenge.presentation.navigation.Navigator
 import kotlinx.coroutines.flow.update
+import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorHolder
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private var getFactUseCase: GetFactUseCase
+    private var getFactUseCase: GetFactUseCase,
+    private var navigatorHolder: NavigatorHolder,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MainScreenState())
     val state: StateFlow<MainScreenState> = _state
-    private lateinit var navController: NavController
-
-    //TODO: Mechanism to save and load facts doesn't exist
-    //TODO: Navigation could be injected into the ViewModel
-    //Benefit: This adheres to unilateral flow
-    fun attachNavController(controller: NavController) {
-        this.navController = controller
-    }
 
     init {
         fetchNewFact()
     }
 
-    fun navigateToSecondScreen() {
-        //TODO: Make this type-Safe instead of taking a string
-        navController.navigate("history")
+    fun navigateToHistory() {
+        navigatorHolder.get().navigateToHistory()
     }
 
     fun fetchNewFact() {
-        //TODO: Dispatchers.Main can be removed when using ViewModelScope
-        //TODO: Remove CoroutineScope and make fetchNewFact a suspend function
         viewModelScope.launch {
             _state.update { it.copy(loading = true) }
             getFactUseCase.execute().fold(

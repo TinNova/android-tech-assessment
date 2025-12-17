@@ -17,28 +17,21 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 
 @Composable
 fun HistoryScreen(
     viewModel: HistoryViewModel,
-    navController: NavController,
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     BackHandler {
         viewModel.navigateHome()
-    }
-
-    LaunchedEffect(navController) {
-        viewModel.attachNavController(navController)
     }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -104,4 +97,3 @@ fun HistoryScreen(
         }
     }
 }
-

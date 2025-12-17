@@ -11,14 +11,19 @@ import androidx.compose.ui.Modifier
 import com.pelagohealth.codingchallenge.presentation.MainViewModel
 import com.pelagohealth.codingchallenge.presentation.HistoryViewModel
 import com.pelagohealth.codingchallenge.presentation.navigation.AppNavHost
+import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorHolder
 import com.pelagohealth.codingchallenge.ui.theme.PelagoCodingChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
     private val historyScreenViewModel: HistoryViewModel by viewModels()
+    
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +32,8 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     AppNavHost(
                         mainViewModel = mainViewModel,
-                        historyScreenViewModel = historyScreenViewModel
+                        historyScreenViewModel = historyScreenViewModel,
+                        navigatorHolder = navigatorHolder
                     )
                 }
             }
