@@ -2,21 +2,17 @@ package com.pelagohealth.codingchallenge.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pelagohealth.codingchallenge.data.repository.FactRepository
-import com.pelagohealth.codingchallenge.domain.model.Fact
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import androidx.navigation.NavController
+import com.pelagohealth.codingchallenge.domain.model.GetFactUseCase
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private var repository: FactRepository
+    private var getFactUseCase: GetFactUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MainScreenState())
@@ -31,9 +27,7 @@ class MainViewModel @Inject constructor(
     }
 
     init {
-        GlobalScope.launch { //TODO: Use ViewModelScope
-            fetchNewFact()
-        }
+        fetchNewFact()
     }
 
     fun navigateToSecondScreen() {
@@ -44,22 +38,22 @@ class MainViewModel @Inject constructor(
     fun fetchNewFact() {
         //TODO: Dispatchers.Main can be removed when using ViewModelScope
         //TODO: Remove CoroutineScope and make fetchNewFact a suspend function
-        CoroutineScope(Dispatchers.Main).launch {
+        viewModelScope.launch {
             _state.value = MainScreenState(loading = true)
-            runCatching { repository.get() }
-                .onSuccess { fact ->
-                    //TODO: loading not reset to false
-                    _state.value = MainScreenState(current = fact, loading = false)
+            getFactUseCase.execute().fold(
+                onSuccess = { fact ->
+                    _state.value = MainScreenState(currentFact = fact.text, loading = false)
+                },
+                onFailure = {
+                    _state.value =
+                        MainScreenState(currentFact = "Oops, please try again.", loading = false)
                 }
-                .onFailure { e ->
-                    //TODO: loading not reset to false
-                    println(e)
-                }
+            )
         }
     }
-
-    data class MainScreenState(
-        val current: Fact? = null,
-        val loading: Boolean = false,
-    )
 }
+
+data class MainScreenState(
+    val currentFact: String = "",
+    val loading: Boolean = false,
+)

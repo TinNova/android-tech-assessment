@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.pelagohealth.codingchallenge.data.repository.FactRepository
 import com.pelagohealth.codingchallenge.domain.model.Fact
-import com.pelagohealth.codingchallenge.presentation.MainViewModel.MainScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

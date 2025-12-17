@@ -39,7 +39,7 @@ fun MainScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = state.current?.text ?: "",
+            text = state.currentFact,
             modifier = modifier
         )
         Button(onClick = { viewModel.fetchNewFact() }) {
