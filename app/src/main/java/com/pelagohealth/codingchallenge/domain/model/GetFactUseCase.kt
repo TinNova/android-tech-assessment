@@ -6,7 +6,7 @@ import javax.inject.Inject
 class GetFactUseCase @Inject constructor(private val repository: FactRepository) {
 
     suspend fun execute(): Result<Fact> {
-        return runCatching { repository.get() }
+        return repository.get()
             .map { dto ->
                 Fact(text = dto.text, url = dto.sourceUrl)
             }
