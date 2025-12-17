@@ -1,4 +1,4 @@
-package com.pelagohealth.codingchallenge.presentation
+package com.pelagohealth.codingchallenge.presentation.history
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pelagohealth.codingchallenge.domain.model.Fact
+import com.pelagohealth.codingchallenge.presentation.history.HistoryContract.HistoryScreenState
+import com.pelagohealth.codingchallenge.presentation.history.HistoryContract.UiEvent
 
 @Composable
 fun HistoryScreen(
@@ -38,12 +40,12 @@ fun HistoryScreen(
 
 @Composable
 fun HistoryContent(
-    state: HistoryViewModel.HistoryScreenState,
+    state: HistoryScreenState,
     modifier: Modifier,
-    uiAction: (HistoryViewModel.UiEvent) -> Unit
+    uiAction: (UiEvent) -> Unit
 ) {
     BackHandler {
-        uiAction(HistoryViewModel.UiEvent.NavigateHome)
+        uiAction(UiEvent.NavigateHome)
     }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -99,7 +101,7 @@ fun HistoryContent(
         }
 
         Button(
-            onClick = { uiAction(HistoryViewModel.UiEvent.NavigateHome) },
+            onClick = { uiAction(UiEvent.NavigateHome) },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
@@ -114,7 +116,7 @@ fun HistoryContent(
 @Composable
 fun HistoryScreenPreview() {
     HistoryContent(
-        state = HistoryViewModel.HistoryScreenState(
+        state = HistoryScreenState(
             facts = listOf(
                 Fact(text = "Cats sleep 70% of their lives.", url = ""),
                 Fact(text = "Dogs have been domesticated for over 15,000 years.", url = ""),
@@ -129,9 +131,9 @@ fun HistoryScreenPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun HistoryScreenEmptyPreview() {
+fun HistoryContentEmptyPreview() {
     HistoryContent(
-        state = HistoryViewModel.HistoryScreenState(
+        state = HistoryScreenState(
             facts = emptyList(),
             loading = false
         ),
@@ -142,9 +144,9 @@ fun HistoryScreenEmptyPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun HistoryScreenLoadingPreview() {
+fun HistoryContentLoadingPreview() {
     HistoryContent(
-        state = HistoryViewModel.HistoryScreenState(
+        state = HistoryScreenState(
             facts = null,
             loading = true
         ),

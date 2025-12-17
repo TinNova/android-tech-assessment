@@ -1,4 +1,4 @@
-package com.pelagohealth.codingchallenge.presentation
+package com.pelagohealth.codingchallenge.presentation.main
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.pelagohealth.codingchallenge.presentation.main.MainContract.MainScreenState
+import com.pelagohealth.codingchallenge.presentation.main.MainContract.UiEvent
 
 @Composable
 fun MainScreen(
@@ -31,7 +33,7 @@ fun MainScreen(
 fun MainContent(
     state: MainScreenState,
     modifier: Modifier,
-    uiAction: (MainViewModel.UiEvent) -> Unit
+    uiAction: (UiEvent) -> Unit
 ) {
 
     Box(
@@ -57,7 +59,7 @@ fun MainContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = { uiAction(MainViewModel.UiEvent.FetchNewFact) },
+                onClick = { uiAction(UiEvent.FetchNewFact) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !state.loading
             ) {
@@ -65,7 +67,7 @@ fun MainContent(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = { uiAction(MainViewModel.UiEvent.NavigateToHistory) },
+                onClick = { uiAction(UiEvent.NavigateToHistory) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Show history")
@@ -74,11 +76,11 @@ fun MainContent(
     }
 }
 
-//NOTE: Without a NavController or ViewModel in the MainContent we can now create Previews
-// Furthermore, we can now create Compose Tests & Unit Test with Robolectric.
+//NOTE: By separating the MainContent from the MainScreen and by removing the NavController & ViewModel from the MainContent we can now create Previews
+// Furthermore, we can now create Compose Tests (Compose Unit Test with Robolectric.).
 @Preview(showBackground = true)
 @Composable
-fun MainScreenPreview() {
+fun MainContentPreview() {
     MainContent(
         state = MainScreenState(
             currentFact = "Cats sleep 70% of their lives.",
@@ -91,7 +93,7 @@ fun MainScreenPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun MainScreenLoadingPreview() {
+fun MainContentLoadingPreview() {
     MainContent(
         state = MainScreenState(
             currentFact = "",

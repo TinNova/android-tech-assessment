@@ -1,9 +1,10 @@
-package com.pelagohealth.codingchallenge.presentation
+package com.pelagohealth.codingchallenge.presentation.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pelagohealth.codingchallenge.data.repository.FactRepository
-import com.pelagohealth.codingchallenge.domain.model.Fact
+import com.pelagohealth.codingchallenge.presentation.history.HistoryContract.HistoryScreenState
+import com.pelagohealth.codingchallenge.presentation.history.HistoryContract.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -18,7 +19,7 @@ import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorHolder
 class HistoryViewModel @Inject constructor(
     private var repository: FactRepository,
     private var navigatorHolder: NavigatorHolder
-) : ViewModel() {
+) : HistoryContract, ViewModel() {
 
     private val _state = MutableStateFlow(HistoryScreenState())
     val state: StateFlow<HistoryScreenState> = _state
@@ -27,10 +28,6 @@ class HistoryViewModel @Inject constructor(
         when (uiEvent) {
             is UiEvent.NavigateHome -> navigateHome()
         }
-    }
-
-    sealed class UiEvent {
-        object NavigateHome: UiEvent()
     }
 
     init {
@@ -53,9 +50,4 @@ class HistoryViewModel @Inject constructor(
     fun navigateHome() {
         navigatorHolder.get().navigateToHome()
     }
-
-    data class HistoryScreenState(
-        val facts: List<Fact>? = null,
-        val loading: Boolean = false,
-    )
 }

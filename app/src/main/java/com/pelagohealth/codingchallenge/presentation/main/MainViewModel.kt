@@ -1,4 +1,4 @@
-package com.pelagohealth.codingchallenge.presentation
+package com.pelagohealth.codingchallenge.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.pelagohealth.codingchallenge.domain.model.GetFactUseCase
+import com.pelagohealth.codingchallenge.presentation.main.MainContract.MainScreenState
+import com.pelagohealth.codingchallenge.presentation.main.MainContract.UiEvent
 import kotlinx.coroutines.flow.update
 import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorHolder
 
@@ -15,7 +17,7 @@ import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorHolder
 class MainViewModel @Inject constructor(
     private var getFactUseCase: GetFactUseCase,
     private var navigatorHolder: NavigatorHolder,
-) : ViewModel() {
+) : MainContract, ViewModel() {
 
     //NOTE: Currently we're not retaining the state of the app in the event of a system death (Android OS killing the app to save memory)
     // This can be achieved by saving a boolean in SavedStateHandle, if true (a system death occurred) we can display the last saved Fact from Room (this is why I save 11 Facts in Room instead of 10, to preempt the need for it in this circumstance), else continue as normal.
@@ -31,11 +33,6 @@ class MainViewModel @Inject constructor(
             UiEvent.FetchNewFact -> fetchNewFact()
             UiEvent.NavigateToHistory -> navigateToHistory()
         }
-    }
-
-    sealed class UiEvent {
-        object FetchNewFact : UiEvent()
-        object NavigateToHistory : UiEvent()
     }
 
     fun navigateToHistory() {
@@ -61,8 +58,3 @@ class MainViewModel @Inject constructor(
         }
     }
 }
-
-data class MainScreenState(
-    val currentFact: String = "",
-    val loading: Boolean = false,
-)

@@ -1,17 +1,15 @@
 package com.pelagohealth.codingchallenge.presentation.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.pelagohealth.codingchallenge.presentation.HistoryScreen
-import com.pelagohealth.codingchallenge.presentation.HistoryViewModel
-import com.pelagohealth.codingchallenge.presentation.MainScreen
-import com.pelagohealth.codingchallenge.presentation.MainViewModel
+import com.pelagohealth.codingchallenge.presentation.history.HistoryScreen
+import com.pelagohealth.codingchallenge.presentation.history.HistoryViewModel
+import com.pelagohealth.codingchallenge.presentation.main.MainScreen
+import com.pelagohealth.codingchallenge.presentation.main.MainViewModel
 import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorImpl.Routes.HISTORY
 import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorImpl.Routes.HOME
 

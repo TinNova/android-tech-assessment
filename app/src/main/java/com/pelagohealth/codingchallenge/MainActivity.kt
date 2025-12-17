@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.pelagohealth.codingchallenge.presentation.MainViewModel
-import com.pelagohealth.codingchallenge.presentation.HistoryViewModel
+import com.pelagohealth.codingchallenge.presentation.main.MainViewModel
+import com.pelagohealth.codingchallenge.presentation.history.HistoryViewModel
 import com.pelagohealth.codingchallenge.presentation.navigation.AppNavHost
 import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorHolder
 import com.pelagohealth.codingchallenge.ui.theme.PelagoCodingChallengeTheme
