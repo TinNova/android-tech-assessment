@@ -20,7 +20,6 @@ class FactRepository @Inject constructor(
     suspend fun get(): Result<APIFact> {
         return runCatching { api.getFact() }
             .onSuccess { fact ->
-                // Save to database with max 11 facts constraint
                 factDao.addFactWithLimit(
                     FactEntity(
                         text = fact.text,

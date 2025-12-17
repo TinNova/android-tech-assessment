@@ -74,6 +74,8 @@ fun MainContent(
     }
 }
 
+//NOTE: Without a NavController or ViewModel in the MainContent we can now create Previews
+// Furthermore, we can now create Compose Tests & Unit Test with Robolectric.
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
