@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import androidx.navigation.NavController
 import com.pelagohealth.codingchallenge.domain.model.GetFactUseCase
+import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -39,14 +40,18 @@ class MainViewModel @Inject constructor(
         //TODO: Dispatchers.Main can be removed when using ViewModelScope
         //TODO: Remove CoroutineScope and make fetchNewFact a suspend function
         viewModelScope.launch {
-            _state.value = MainScreenState(loading = true)
+            _state.update { it.copy(loading = true) }
             getFactUseCase.execute().fold(
                 onSuccess = { fact ->
-                    _state.value = MainScreenState(currentFact = fact.text, loading = false)
+                    _state.update { it.copy(currentFact = fact.text, loading = false) }
                 },
                 onFailure = {
-                    _state.value =
-                        MainScreenState(currentFact = "Oops, please try again.", loading = false)
+                    _state.update {
+                        it.copy(
+                            currentFact = "Oops, please try again.",
+                            loading = false
+                        )
+                    }
                 }
             )
         }
