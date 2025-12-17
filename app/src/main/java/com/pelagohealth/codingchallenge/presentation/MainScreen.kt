@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
@@ -23,6 +24,15 @@ fun MainScreen(
     modifier: Modifier = Modifier
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    MainContent(state, modifier) { viewModel.onUiEvent(it) }
+}
+
+@Composable
+fun MainContent(
+    state: MainScreenState,
+    modifier: Modifier,
+    uiAction: (MainViewModel.UiEvent) -> Unit
+) {
 
     Box(
         modifier = modifier
@@ -39,7 +49,7 @@ fun MainScreen(
                 modifier = Modifier.align(Alignment.Center)
             )
         }
-        
+
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -47,7 +57,7 @@ fun MainScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-                onClick = { viewModel.fetchNewFact() },
+                onClick = { uiAction(MainViewModel.UiEvent.FetchNewFact) },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !state.loading
             ) {
@@ -55,11 +65,37 @@ fun MainScreen(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = { viewModel.navigateToHistory() },
+                onClick = { uiAction(MainViewModel.UiEvent.NavigateToHistory) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Show history")
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MainScreenPreview() {
+    MainContent(
+        state = MainScreenState(
+            currentFact = "Cats sleep 70% of their lives.",
+            loading = false
+        ),
+        modifier = Modifier,
+        uiAction = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MainScreenLoadingPreview() {
+    MainContent(
+        state = MainScreenState(
+            currentFact = "",
+            loading = true
+        ),
+        modifier = Modifier,
+        uiAction = {}
+    )
 }

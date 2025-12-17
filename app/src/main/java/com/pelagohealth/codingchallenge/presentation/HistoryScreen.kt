@@ -20,18 +20,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.pelagohealth.codingchallenge.domain.model.Fact
 
 @Composable
 fun HistoryScreen(
     viewModel: HistoryViewModel,
     modifier: Modifier = Modifier
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
 
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    HistoryContent(state, modifier) { viewModel.onUiEvent(it) }
+
+}
+
+@Composable
+fun HistoryContent(
+    state: HistoryViewModel.HistoryScreenState,
+    modifier: Modifier,
+    uiAction: (HistoryViewModel.UiEvent) -> Unit
+) {
     BackHandler {
-        viewModel.navigateHome()
+        uiAction(HistoryViewModel.UiEvent.NavigateHome)
     }
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -55,7 +67,7 @@ fun HistoryScreen(
                         modifier = Modifier.padding(vertical = 16.dp)
                     )
                 }
-                
+
                 state.facts?.let { facts ->
                     if (facts.isEmpty()) {
                         item {
@@ -85,9 +97,9 @@ fun HistoryScreen(
                 }
             }
         }
-        
+
         Button(
-            onClick = { viewModel.navigateHome() },
+            onClick = { uiAction(HistoryViewModel.UiEvent.NavigateHome) },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
@@ -96,4 +108,47 @@ fun HistoryScreen(
             Text("Back")
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HistoryScreenPreview() {
+    HistoryContent(
+        state = HistoryViewModel.HistoryScreenState(
+            facts = listOf(
+                Fact(text = "Cats sleep 70% of their lives.", url = ""),
+                Fact(text = "Dogs have been domesticated for over 15,000 years.", url = ""),
+                Fact(text = "Octopuses have three hearts.", url = "")
+            ),
+            loading = false
+        ),
+        modifier = Modifier,
+        uiAction = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HistoryScreenEmptyPreview() {
+    HistoryContent(
+        state = HistoryViewModel.HistoryScreenState(
+            facts = emptyList(),
+            loading = false
+        ),
+        modifier = Modifier,
+        uiAction = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HistoryScreenLoadingPreview() {
+    HistoryContent(
+        state = HistoryViewModel.HistoryScreenState(
+            facts = null,
+            loading = true
+        ),
+        modifier = Modifier,
+        uiAction = {}
+    )
 }

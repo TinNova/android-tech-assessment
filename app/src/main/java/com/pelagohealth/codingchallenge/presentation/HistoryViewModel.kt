@@ -23,6 +23,16 @@ class HistoryViewModel @Inject constructor(
     private val _state = MutableStateFlow(HistoryScreenState())
     val state: StateFlow<HistoryScreenState> = _state
 
+    fun onUiEvent(uiEvent: UiEvent) {
+        when (uiEvent) {
+            is UiEvent.NavigateHome -> navigateHome()
+        }
+    }
+
+    sealed class UiEvent {
+        object NavigateHome: UiEvent()
+    }
+
     init {
         //NOTE: We can cancel the flow after collecting the first item as that's all we need like this: "repository.getAllFacts().first()"
         //However, to show you that I'm aware of how to cancel flows in a lifecycle aware way I'll leave it like this.

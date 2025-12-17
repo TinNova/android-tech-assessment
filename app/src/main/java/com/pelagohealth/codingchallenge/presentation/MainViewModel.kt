@@ -1,5 +1,6 @@
 package com.pelagohealth.codingchallenge.presentation
 
+import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,7 +9,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.pelagohealth.codingchallenge.domain.model.GetFactUseCase
-import com.pelagohealth.codingchallenge.presentation.navigation.Navigator
 import kotlinx.coroutines.flow.update
 import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorHolder
 
@@ -23,6 +23,18 @@ class MainViewModel @Inject constructor(
 
     init {
         fetchNewFact()
+    }
+
+    fun onUiEvent(uiEvent: UiEvent) {
+        when (uiEvent) {
+            UiEvent.FetchNewFact -> fetchNewFact()
+            UiEvent.NavigateToHistory -> navigateToHistory()
+        }
+    }
+
+    sealed class UiEvent {
+        object FetchNewFact : UiEvent()
+        object NavigateToHistory : UiEvent()
     }
 
     fun navigateToHistory() {
