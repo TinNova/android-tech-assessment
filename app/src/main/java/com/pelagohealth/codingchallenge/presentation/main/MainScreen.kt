@@ -35,7 +35,6 @@ fun MainContent(
     modifier: Modifier,
     uiAction: (UiEvent) -> Unit
 ) {
-
     Box(
         modifier = modifier
             .fillMaxSize()

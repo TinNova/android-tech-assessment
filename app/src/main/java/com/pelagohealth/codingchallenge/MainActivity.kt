@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import com.pelagohealth.codingchallenge.presentation.main.MainViewModel
 import com.pelagohealth.codingchallenge.presentation.history.HistoryViewModel
 import com.pelagohealth.codingchallenge.presentation.navigation.AppNavHost
-import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorHolder
+import com.pelagohealth.codingchallenge.presentation.navigation.Navigator
 import com.pelagohealth.codingchallenge.ui.theme.PelagoCodingChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,9 +21,9 @@ class MainActivity : ComponentActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
     private val historyScreenViewModel: HistoryViewModel by viewModels()
-    
+
     @Inject
-    lateinit var navigatorHolder: NavigatorHolder
+    lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     AppNavHost(
                         mainViewModel = mainViewModel,
                         historyScreenViewModel = historyScreenViewModel,
-                        navigatorHolder = navigatorHolder
+                        navigator = navigator
                     )
                 }
             }

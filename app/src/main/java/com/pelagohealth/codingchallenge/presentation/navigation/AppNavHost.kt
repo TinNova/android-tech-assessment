@@ -10,34 +10,32 @@ import com.pelagohealth.codingchallenge.presentation.history.HistoryScreen
 import com.pelagohealth.codingchallenge.presentation.history.HistoryViewModel
 import com.pelagohealth.codingchallenge.presentation.main.MainScreen
 import com.pelagohealth.codingchallenge.presentation.main.MainViewModel
-import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorImpl.Routes.HISTORY
-import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorImpl.Routes.HOME
 
 @Composable
 fun AppNavHost(
     mainViewModel: MainViewModel,
     historyScreenViewModel: HistoryViewModel,
-    navigatorHolder: NavigatorHolder,
+    navigator: Navigator,
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
     
     // Initialize the Navigator with the NavController
     LaunchedEffect(navController) {
-        navigatorHolder.setNavigator(navController)
+        navigator.setController(navController)
     }
     
     NavHost(
         navController = navController,
-        startDestination = HOME.name
+        startDestination = Destination.MainScreen
     ) {
-        composable(route = HOME.name) {
+        composable<Destination.MainScreen> {
             MainScreen(
                 viewModel = mainViewModel,
                 modifier = modifier,
             )
         }
-        composable(route = HISTORY.name) {
+        composable<Destination.HistoryScreen> {
             HistoryScreen(
                 viewModel = historyScreenViewModel,
                 modifier = modifier

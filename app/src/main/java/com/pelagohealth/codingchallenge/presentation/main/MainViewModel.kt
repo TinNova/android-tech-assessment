@@ -10,13 +10,14 @@ import kotlinx.coroutines.launch
 import com.pelagohealth.codingchallenge.domain.model.GetFactUseCase
 import com.pelagohealth.codingchallenge.presentation.main.MainContract.MainScreenState
 import com.pelagohealth.codingchallenge.presentation.main.MainContract.UiEvent
+import com.pelagohealth.codingchallenge.presentation.navigation.Destination
+import com.pelagohealth.codingchallenge.presentation.navigation.Navigator
 import kotlinx.coroutines.flow.update
-import com.pelagohealth.codingchallenge.presentation.navigation.NavigatorHolder
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private var getFactUseCase: GetFactUseCase,
-    private var navigatorHolder: NavigatorHolder,
+    private var navigator: Navigator,
 ) : MainContract, ViewModel() {
 
     //NOTE: Currently we're not retaining the state of the app in the event of a system death (Android OS killing the app to save memory)
@@ -36,7 +37,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun navigateToHistory() {
-        navigatorHolder.get().navigateToHistory()
+        navigator.navigate(Destination.HistoryScreen)
     }
 
     fun fetchNewFact() {
