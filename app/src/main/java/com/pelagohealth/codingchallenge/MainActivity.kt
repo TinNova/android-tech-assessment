@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.pelagohealth.codingchallenge.presentation.main.MainViewModel
-import com.pelagohealth.codingchallenge.presentation.history.HistoryViewModel
 import com.pelagohealth.codingchallenge.presentation.navigation.AppNavHost
 import com.pelagohealth.codingchallenge.presentation.navigation.Navigator
 import com.pelagohealth.codingchallenge.ui.theme.PelagoCodingChallengeTheme
@@ -18,9 +16,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private val mainViewModel: MainViewModel by viewModels()
-    private val historyScreenViewModel: HistoryViewModel by viewModels()
 
     @Inject
     lateinit var navigator: Navigator
@@ -31,8 +26,6 @@ class MainActivity : ComponentActivity() {
             PelagoCodingChallengeTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     AppNavHost(
-                        mainViewModel = mainViewModel,
-                        historyScreenViewModel = historyScreenViewModel,
                         navigator = navigator
                     )
                 }

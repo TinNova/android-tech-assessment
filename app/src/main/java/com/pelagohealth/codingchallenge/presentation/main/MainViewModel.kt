@@ -2,6 +2,8 @@ package com.pelagohealth.codingchallenge.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pelagohealth.codingchallenge.domain.model.Fact
+import com.pelagohealth.codingchallenge.domain.model.FactInMemoryCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.update
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private var getFactUseCase: GetFactUseCase,
+    private var factInMemoryCache: FactInMemoryCache,
     private var navigator: Navigator,
 ) : MainContract, ViewModel() {
 
@@ -26,7 +29,9 @@ class MainViewModel @Inject constructor(
     val state: StateFlow<MainScreenState> = _state
 
     init {
-        fetchNewFact()
+        factInMemoryCache.cache.value?.let {
+            displayFact(it)
+        } ?: fetchNewFact()
     }
 
     fun onUiEvent(uiEvent: UiEvent) {
@@ -36,16 +41,17 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun navigateToHistory() {
+    private fun navigateToHistory() {
         navigator.navigate(Destination.HistoryScreen)
     }
 
-    fun fetchNewFact() {
+    private fun fetchNewFact() {
         viewModelScope.launch {
             _state.update { it.copy(loading = true) }
             getFactUseCase.execute().fold(
                 onSuccess = { fact ->
-                    _state.update { it.copy(currentFact = fact.text, loading = false) }
+                    factInMemoryCache.updateCache(fact)
+                    displayFact(fact)
                 },
                 onFailure = {
                     _state.update {
@@ -57,5 +63,9 @@ class MainViewModel @Inject constructor(
                 }
             )
         }
+    }
+
+    private fun displayFact(fact: Fact) {
+        _state.update { it.copy(currentFact = fact.text, loading = false) }
     }
 }
